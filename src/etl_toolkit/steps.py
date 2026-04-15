@@ -157,13 +157,6 @@ class QualityCheck(PipelineStep):
                     val = row.get(col)
                     if rtype == "not_null" and val is None:
                         failures.append({"rule": "not_null", "column": col, "row": row})
-                    elif rtype == "unique":
-                        seen = set()
-                        for r in data:
-                            v = r.get(col)
-                            if v in seen:
-                                failures.append({"rule": "unique", "column": col, "value": v})
-                            seen.add(v)
                     elif rtype == "range" and val is not None:
                         lo = rule.get("min")
                         hi = rule.get("max")
@@ -171,6 +164,20 @@ class QualityCheck(PipelineStep):
                             failures.append({"rule": "range", "column": col, "val": val, "min": lo})
                         if hi is not None and val > hi:
                             failures.append({"rule": "range", "column": col, "val": val, "max": hi})
+
+        # Uniqueness: separate pass (can't check inside row loop)
+        for rule in self.rules:
+            if rule["type"] != "unique":
+                continue
+            cols = rule.get("columns", [])
+            for col in cols:
+                seen: dict = {}
+                for row in data:
+                    val = row.get(col)
+                    if val is not None:
+                        if val in seen:
+                            failures.append({"rule": "unique", "column": col, "value": val})
+                        seen[val] = row
 
         status = "success"
         if failures:

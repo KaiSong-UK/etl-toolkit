@@ -1,0 +1,11 @@
+feat: add demo.py + GitHub Actions CI + fix QualityCheck uniqueness bug
+
+- Add examples/demo.py: fully self-contained demo using in-memory SQLite.
+  No database required. Run: python examples/demo.py
+- Add .github/workflows/ci.yml: CI testing on Python 3.10/3.11/3.12 + lint
+  (ruff, black, mypy) on every PR
+- Fix src/etl_toolkit/steps.py: QualityCheck uniqueness rule had a bug
+  where the "seen" set was reset inside the row loop. Fixed with a
+  separate uniqueness pass after all other rules.
+- Add tests/test_quality.py: add test for uniqueness duplicates
+- Rewrite README: add CI badge, Python versions, run demo instructions
