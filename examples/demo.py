@@ -5,8 +5,9 @@ Uses SQLite in-memory to demonstrate a complete data pipeline.
 Run: python examples/demo.py
 """
 import sqlite3
-from etl_toolkit import Pipeline, Transform, QualityCheck, LogStep
-from etl_toolkit.steps import WriteDatabase, ReadDatabase
+
+from etl_toolkit import LogStep, Pipeline, QualityCheck, Transform
+from etl_toolkit.steps import ReadDatabase, WriteDatabase
 
 
 def setup_db(conn):
@@ -75,7 +76,8 @@ def main():
     real_conn = sqlite3.connect(":memory:", uri=True)
     real_connuri = "file::memory:?cache=shared&uri=true"
     # Use a temp file DB for Write step (in-memory can't be shared across connections)
-    import tempfile, os
+    import os
+    import tempfile
     tmp_db = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
     tmp_db.close()
     warehouse_conn = f"file:{tmp_db.name}?mode=rwc&cache=shared"
