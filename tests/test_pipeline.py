@@ -1,5 +1,4 @@
-import pytest
-from etl_toolkit import Pipeline, Transform, LogStep
+from etl_toolkit import LogStep, Pipeline, Transform
 
 
 def test_pipeline_success():
