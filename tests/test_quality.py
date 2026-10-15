@@ -1,6 +1,5 @@
-import pytest
-from etl_toolkit import Pipeline, QualityCheck
-from etl_toolkit.steps import StepResult, QualityCheck as QC
+from etl_toolkit import Pipeline
+from etl_toolkit.steps import QualityCheck as QC
 
 
 def test_quality_check_not_null_pass():

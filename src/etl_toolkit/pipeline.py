@@ -1,7 +1,8 @@
-import time
 import logging
-from typing import Any, Optional
-from dataclasses import dataclass, field
+import time
+from dataclasses import dataclass
+from typing import Any
+
 from .steps import PipelineStep, StepResult
 
 logger = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ class PipelineResult:
     total_duration_ms: float
     step_results: list[StepResult]
     rows_written: int = 0
-    error: Optional[str] = None
+    error: str | None = None
 
 
 class Pipeline:

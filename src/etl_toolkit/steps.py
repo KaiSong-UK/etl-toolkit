@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Optional
-import re
+from typing import Any
 
 
 @dataclass
@@ -11,7 +10,7 @@ class StepResult:
     rows_read: int = 0
     rows_written: int = 0
     duration_ms: float = 0.0
-    error: Optional[str] = None
+    error: str | None = None
     metrics: dict[str, Any] = field(default_factory=dict)
 
 
@@ -37,7 +36,7 @@ class ReadDatabase(PipelineStep):
         name: str,
         connection: str,
         query: str,
-        params: Optional[dict] = None,
+        params: dict | None = None,
         batch_size: int = 10000,
     ):
         super().__init__(name)
@@ -207,7 +206,7 @@ class WriteDatabase(PipelineStep):
         connection: str,
         table: str,
         mode: str = "append",
-        key_columns: Optional[list] = None,
+        key_columns: list | None = None,
         batch_size: int = 1000,
     ):
         super().__init__(name)
