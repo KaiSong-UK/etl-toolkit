@@ -2,7 +2,8 @@
 Example: Daily User Sync Pipeline
 """
 import os
-from etl_toolkit import Pipeline, ReadDatabase, WriteDatabase, QualityCheck, Transform
+
+from etl_toolkit import Pipeline, QualityCheck, ReadDatabase, Transform, WriteDatabase
 
 pipeline = Pipeline("daily_user_sync")
 
